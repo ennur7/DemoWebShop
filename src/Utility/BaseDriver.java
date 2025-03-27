@@ -2,25 +2,23 @@ package Utility;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
 public class BaseDriver {
     public static WebDriver driver;
 
-     //bunun sarti extends olmasi ve basta yer almasi
-    static{
+    static {
         KalanOncekileriKapat();
-        driver=new ChromeDriver();
+        driver = new ChromeDriver();
 
-        driver.manage().window().maximize(); // Ekranı max yapıyor.
+        // driver.manage().window().maximize(); // Ekranı max yapıyor.
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20)); // 20 sn mühlet: sayfayı yükleme mühlet
-
-        //driver.manage
-         // driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5)); // 20 sn mühlet: elementi bulma mühleti
+        // driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5)); // 20 sn mühlet: elementi bulma mühleti
     }
 
-    public static void BekleKapat(){
+    public static void BekleKapat() {
         Myfunc.Bekle(3);
         driver.quit();
     }
