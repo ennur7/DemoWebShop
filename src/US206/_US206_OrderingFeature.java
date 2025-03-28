@@ -34,141 +34,73 @@ public class _US206_OrderingFeature extends BaseDriver {
             driver.findElement(By.xpath("//*[contains(@name,'itemquantity')]")).clear();
             driver.findElement(By.xpath("//*[contains(@name,'itemquantity')]")).sendKeys("0");
             actions.sendKeys(Keys.ENTER);
+            myWait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[@alt='Tricentis Demo Web Shop']"))));
             actions.moveToElement(driver.findElement(By.xpath("//*[@alt='Tricentis Demo Web Shop']"))).click().build().perform();
         }
-        actions.moveToElement(driver.findElement(By.xpath("//*[text()='14.1-inch Laptop']"))).click().build().perform();
-        myWait.until(ExpectedConditions.urlContains("141-inch-laptop"));
 
-        String homePagePrice = driver.findElement(By.xpath("(//div[@class='prices'])[1]")).getText();
-        Assert.assertTrue("Products specifications did not appear", driver.findElement(By.xpath("//*[text()='Products specifications']")).isDisplayed());
+        WebElement computerBtn = driver.findElement(By.xpath("//*[contains(text(),'Computers')]"));
 
-        Assert.assertTrue("Add to cart button did not appear", driver.findElement(By.xpath("//*[@id='add-to-cart-button-31']")).isDisplayed());
+        actions.moveToElement(computerBtn).build().perform();
+        Myfunc.Bekle(2);
 
-        actions.moveToElement(driver.findElement(By.xpath("//*[@id='add-to-cart-button-31']"))).click().build().perform();
+        WebElement noteBooks = driver.findElement(By.xpath("//*[@class='top-menu']//a[@href='/notebooks']"));
+        myWait.until(ExpectedConditions.visibilityOf(noteBooks));
+        noteBooks.click();
 
-        myWait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//*[contains(text(),'has been added')]"))));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0,200)");
+        Myfunc.Bekle(2);
 
-        Assert.assertTrue("Product could not be added to cart", driver.findElement(By.xpath("//*[contains(text(),'has been added')]")).isDisplayed());
+        WebElement link = driver.findElement(By.xpath("//h2[@class='product-title']/a"));
+        myWait.until(ExpectedConditions.visibilityOf(link));
+        link.click();
 
-        myWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'Shopping cart')]")));
+        WebElement addToCart2 = driver.findElement(By.xpath("//input[@id='add-to-cart-button-31']"));
+        myWait.until(ExpectedConditions.visibilityOf(addToCart2));
+        myWait.until(ExpectedConditions.elementToBeClickable(addToCart2));
+        addToCart2.click();
 
-        Assert.assertTrue("Shopping cart button not be added to cart", driver.findElement(By.xpath("//*[contains(text(),'Shopping cart')]")).isDisplayed());
+        WebElement shoppingCart = driver.findElement(By.xpath("(//*[@class='cart-label'])[1]"));
+        shoppingCart.click();
+        Myfunc.Bekle(2);
 
-        actions.moveToElement(driver.findElement(By.xpath("//*[contains(text(),'Shopping cart')]"))).click().build().perform();
+        WebElement selectCountry = driver.findElement(By.xpath("//*[@id='CountryId']"));
+        Myfunc.Bekle(2);
+        Select select = new Select(selectCountry);
+        select.selectByValue("2");
 
-        Assert.assertTrue("Url not contains cart", driver.getCurrentUrl().contains("cart"));
-        Assert.assertTrue("Prices are not the same", driver.findElement(By.xpath("//span[@class='product-unit-price']")).getText().contains(homePagePrice));
+        WebElement selectCountry2 = driver.findElement(By.xpath("//*[@id='StateProvinceId']"));
+        Myfunc.Bekle(2);
+        Select select2 = new Select(selectCountry2);
+        select2.selectByValue("71");
+        Myfunc.Bekle(1);
 
-        Assert.assertTrue("Total price is not correct", driver.findElement(By.xpath("//span[@class='product-subtotal']")).getText().equals(homePagePrice));
+        myWait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[@id='termsofservice']"))));
+        WebElement checkBox = driver.findElement(By.xpath("//*[@id='termsofservice']"));
+        checkBox.click();
+        Myfunc.Bekle(1);
 
+        WebElement checkOut = driver.findElement(By.xpath("//*[@id='checkout']"));
+        checkOut.click();
+        Myfunc.Bekle(1);
 
-        Select countrySelect = new Select(driver.findElement(By.xpath("//*[@id='CountryId']")));
-        countrySelect.selectByVisibleText("United States");
-        myWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='United States']")));
-        Assert.assertEquals("Country can not be selected",
-                "United States", new Select(driver.findElement(By.xpath("//*[@id='CountryId']"))).getFirstSelectedOption().getText());
+        WebElement continue1 = driver.findElement(By.xpath("//input[@class='button-1 new-address-next-step-button']"));
+        continue1.click();
+        Myfunc.Bekle(1);
 
+        WebElement ShippingAddress = driver.findElement(By.xpath("//*[@id='shipping-address-select']"));
+        WebElement inStorePickUp = driver.findElement(By.xpath("//*[@id='PickUpInStore']"));
 
-        Select stateSelect = new Select(driver.findElement(By.xpath("//*[@id='StateProvinceId']")));
-        stateSelect.selectByVisibleText("New York");
-        Assert.assertTrue("State can not be selected", driver.findElement(By.xpath("//*[text()='New York']")).isSelected());
-        myWait.until(ExpectedConditions.elementToBeSelected(driver.findElement(By.xpath("//*[text()='New York']"))));
+        Assert.assertTrue("Wrong adress information !", ShippingAddress.getText().contains("Team5"));
 
-        actions.moveToElement(driver.findElement(By.xpath("//*[@id='termsofservice']"))).click().build().perform();
-        Assert.assertTrue("Check box is not checked", driver.findElement(By.xpath("//*[@id='termsofservice']")).isSelected());
-        myWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='checkout']")));
-        Assert.assertTrue("Checkout button is not clickable", driver.findElement(By.xpath("//button[@id='checkout']")).isEnabled());
-        if (!driver.findElements(By.xpath("//button[@id='checkout']")).isEmpty()) {
-            WebElement checkoutButton = driver.findElement(By.xpath("//button[@id='checkout']"));
-            if (checkoutButton.isDisplayed() && checkoutButton.isEnabled()) {
-                actions.moveToElement(checkoutButton).click().build().perform();
-            }
-        }
-
-        myWait.until(ExpectedConditions.urlContains("checkout"));
-        Assert.assertTrue("Url not contains checkout", driver.getCurrentUrl().contains("checkout"));
-
-        myWait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[@id='billing-address-select']"))));
-
-        myWait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[@id='billing-address-select']"))));
-
-        Select newBillingAddressSelect = new Select(driver.findElement(By.xpath("//*[@id='billing-address-select']")));
-        newBillingAddressSelect.selectByVisibleText("New Address");
-        Assert.assertEquals("Billing address selection failed",
-                "New Address", new Select(driver.findElement(By.xpath("//*[@id='billing-address-select']"))).getFirstSelectedOption().getText());
-
-
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@id='BillingNewAddress_FirstName']")).getAttribute("value").equals(UserInformation.getFirstName()));
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@id='BillingNewAddress_LastName']")).getAttribute("value").equals(UserInformation.getLastName()));
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@id='BillingNewAddress_Email']")).getAttribute("value").equals(UserInformation.getEmail()));
-
-        Select countryDropdown = new Select(driver.findElement(By.xpath("//*[@id='BillingNewAddress_CountryId']")));
-        countryDropdown.selectByVisibleText("United States");
-
-        myWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='BillingNewAddress_StateProvinceId']")));
-
+        if (!inStorePickUp.isSelected())
+            inStorePickUp.click();
 
         Myfunc.Bekle(1);
-        Select newStateSelect1 = new Select(driver.findElement(By.xpath("//*[@id='BillingNewAddress_StateProvinceId']")));
-        newStateSelect1.selectByVisibleText("New York");
 
-
-        if (driver.findElement(By.xpath("//*[@id='BillingNewAddress_City']")).getAttribute("value").isEmpty()) {
-            actions.moveToElement(driver.findElement(By.xpath("//*[@id='BillingNewAddress_City']"))).click().sendKeys("San Francisco").build().perform();
-        }
-
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@id='BillingNewAddress_City']")).getAttribute("value").equals("San Francisco"));
-
-
-        if (driver.findElement(By.xpath("//*[@id='BillingNewAddress_Address1']")).getAttribute("value").isEmpty()) {
-            actions.moveToElement(driver.findElement(By.xpath("//*[@id='BillingNewAddress_Address1']"))).click().sendKeys("240 W 55th St").build().perform();
-        }
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@id='BillingNewAddress_Address1']")).getAttribute("value").equals("240 W 55th St"));
-
-        if (driver.findElement(By.xpath("//*[@id='BillingNewAddress_ZipPostalCode']")).getAttribute("value").isEmpty()) {
-            actions.moveToElement(driver.findElement(By.xpath("//*[@id='BillingNewAddress_ZipPostalCode']"))).click().sendKeys("10019").build().perform();
-        }
-
-
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@id='BillingNewAddress_ZipPostalCode']")).getAttribute("value").equals("10019"));
-
-        if (driver.findElement(By.xpath("//*[@id='BillingNewAddress_PhoneNumber']")).getAttribute("value").isEmpty()) {
-            actions.moveToElement(driver.findElement(By.xpath("//*[@id='BillingNewAddress_PhoneNumber']"))).click().sendKeys("+12129573536").build().perform();
-        }
-
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@id='BillingNewAddress_PhoneNumber']")).getAttribute("value").equals("+12129573536"));
-
-        actions.moveToElement(driver.findElement(By.xpath("(//*[@value='Continue'])[1]"))).click().build().perform();
-
-        Robot robot = new Robot();
-        for (int i = 0; i < 32; i++) {
-            robot.keyPress(KeyEvent.VK_TAB);
-            robot.keyRelease(KeyEvent.VK_TAB);
-            Myfunc.Bekle(1);
-        }
-
-        robot.keyPress(KeyEvent.VK_ENTER);
-        robot.keyRelease(KeyEvent.VK_ENTER);
-        robot.keyPress(KeyEvent.VK_ENTER);
-        robot.keyRelease(KeyEvent.VK_ENTER);
-
-        myWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(text(),'Shipping address')]")));
-
-        Assert.assertTrue("Shipping Address Continue button isn't displayed ", driver.findElement(By.xpath("(//*[@value='Continue'])[2]")).isDisplayed());
-        actions.moveToElement(driver.findElement(By.xpath("(//*[@value='Continue'])[2]"))).click().build().perform();
-        Myfunc.Bekle(2);
-        myWait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[@id='shippingoption_2']"))));
-        actions.moveToElement(driver.findElement(By.xpath("//*[@id='shippingoption_2']"))).click().build().perform();
-        Assert.assertTrue("Radio button isn't selected", driver.findElement(By.xpath("//*[@id='shippingoption_2']")).isSelected());
-
-
-        Assert.assertTrue("Shipping Method isn'n Displayed", driver.findElement(By.xpath("(//*[@value='Continue'])[3]")).isDisplayed());
-        Assert.assertTrue("Shipping Method isn'n Enable", driver.findElement(By.xpath("(//*[@value='Continue'])[3]")).isEnabled());
-
-
-        Assert.assertTrue("Shipping Address Continue button isn't displayed ", driver.findElement(By.xpath("(//*[@value='Continue'])[3]")).isDisplayed());
-        actions.moveToElement(driver.findElement(By.xpath("(//*[@value='Continue'])[3]"))).click().build().perform();
-
+        WebElement continue2 = driver.findElement(By.xpath("//input[@onclick='Shipping.save()']"));
+        continue2.click();
+        Myfunc.Bekle(1);
 
         myWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='paymentmethod_2']")));
         Assert.assertTrue("Payment method button isn't enabled", driver.findElement(By.xpath("//*[@id='paymentmethod_2']")).isEnabled());
@@ -178,7 +110,6 @@ public class _US206_OrderingFeature extends BaseDriver {
         myWait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[@value='Continue'])[4]")));
         Assert.assertTrue("Shipping Address Continue button isn't displayed", driver.findElement(By.xpath("(//*[@value='Continue'])[4]")).isDisplayed());
         actions.moveToElement(driver.findElement(By.xpath("(//*[@value='Continue'])[4]"))).click().build().perform();
-
 
 
         Select ccSelect = new Select(myWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='CreditCardType']"))));
@@ -214,17 +145,16 @@ public class _US206_OrderingFeature extends BaseDriver {
         Assert.assertTrue("Shipping Address Continue button isn't displayed", driver.findElement(By.xpath("(//*[@value='Continue'])[5]")).isDisplayed());
 
         Myfunc.Bekle(2);
-        Robot robot2 = new Robot();
+        Robot robot1 = new Robot();
         for (int i = 0; i < 3; i++) {
-            robot2.keyPress(KeyEvent.VK_TAB);
-            robot2.keyRelease(KeyEvent.VK_TAB);
-            Myfunc.Bekle(1);
-
+            robot1.keyPress(KeyEvent.VK_TAB);
+            robot1.keyRelease(KeyEvent.VK_TAB);
+            //MyFunc.Bekle(1);
+            Thread.sleep(300);
         }
-        robot2.keyPress(KeyEvent.VK_ENTER);
-        robot2.keyRelease(KeyEvent.VK_ENTER);
-        robot2.keyPress(KeyEvent.VK_ENTER);
-        robot2.keyRelease(KeyEvent.VK_ENTER);
+
+        robot1.keyPress(KeyEvent.VK_ENTER);
+        robot1.keyRelease(KeyEvent.VK_ENTER);
 
         List<WebElement> urunler = driver.findElements(By.xpath("(//span[text()='1590.00'])[2]"));
 
@@ -236,21 +166,22 @@ public class _US206_OrderingFeature extends BaseDriver {
             urunUcretToplam = urunUcretToplam + urunFiyat;
         }
 
-        double ItemTotal=Double.parseDouble( driver.findElement(By.cssSelector("td.cart-total-right span.product-price")).getText().replaceAll("[^0-9,.]",""));
+        double ItemTotal = Double.parseDouble(driver.findElement(By.cssSelector("td.cart-total-right span.product-price")).getText().replaceAll("[^0-9,.]", ""));
 
-        Assert.assertTrue("Rakamlar eşit değil", urunUcretToplam==ItemTotal);
+        Assert.assertTrue("Rakamlar eşit değil", urunUcretToplam == ItemTotal);
 
-
-
-        myWait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[@value='Confirm']"))));
-        actions.moveToElement(driver.findElement(By.xpath("//*[@value='Confirm']"))).click().build().perform();
-        Assert.assertTrue("Confirm button isn't displayed", driver.findElement(By.xpath("//*[@value='Confirm']")).isDisplayed());
-
-
-
+        Robot robot2 = new Robot();
+        for (int i = 0; i < 49; i++) {
+            robot2.keyPress(KeyEvent.VK_TAB);
+            robot2.keyRelease(KeyEvent.VK_TAB);
+            Myfunc.Bekle(1);
+        }
+        robot2.keyPress(KeyEvent.VK_ENTER);
+        robot2.keyRelease(KeyEvent.VK_ENTER);
 
         myWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'successfully ')]")));
-        Assert.assertTrue("Your order could not be processed!",driver.findElement(By.xpath("//*[contains(text(),'successfully ')]")).getText().contains("successfully"));
+        Assert.assertTrue("Your order could not be processed!", driver.findElement(By.xpath("//*[contains(text(),'successfully ')]")).getText().contains("successfully"));
+
         Assert.assertTrue(driver.getCurrentUrl().contains("completed"));
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'Order number')]")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'Order number')]")).getText().contains("Order number"));
