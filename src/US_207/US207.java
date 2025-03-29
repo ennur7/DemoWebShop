@@ -6,6 +6,7 @@ import Utility.Myfunc;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 
@@ -24,7 +25,7 @@ public class US207 extends BaseDriver {
 
         driver.get("https://demowebshop.tricentis.com");
 
-
+        JavascriptExecutor js = (JavascriptExecutor)driver;
         WebElement excellentRadioButton = driver.findElement(By.xpath("//*[@id='pollanswers-1']"));
         Myfunc.Bekle(2);
         excellentRadioButton.click();
@@ -41,6 +42,7 @@ public class US207 extends BaseDriver {
         loginButton.click();
 
         WebElement usernameInputField = driver.findElement(By.xpath("//*[@id='Email']"));
+        js.executeScript("arguments[0].scrollIntoView();",usernameInputField);
         usernameInputField.sendKeys("tteam.5.techno@gmail.com");
 
         WebElement passwordInputField = driver.findElement(By.xpath("//*[@id='Password']"));
