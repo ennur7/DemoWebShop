@@ -1,4 +1,4 @@
-package US206;
+package US_206;
 
 import Utility.BaseDriver;
 import Utility.Myfunc;
@@ -6,11 +6,7 @@ import Utility.UserInformation;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -24,7 +20,7 @@ public class _US206_OrderingFeature extends BaseDriver {
 
     @Test
     public void testUS206() throws AWTException {
-        //Myfunc.loginTest();
+        Myfunc.loginTest();
         WebDriverWait myWait = new WebDriverWait(driver, Duration.ofSeconds(20));
         Actions actions = new Actions(driver);
         Myfunc.Bekle(2);
