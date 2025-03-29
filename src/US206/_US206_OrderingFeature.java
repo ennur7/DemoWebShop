@@ -23,8 +23,8 @@ import java.util.List;
 public class _US206_OrderingFeature extends BaseDriver {
 
     @Test
-    public void testUS206() throws AWTException, InterruptedException {
-        Myfunc.loginTest();
+    public void testUS206() throws AWTException {
+        //Myfunc.loginTest();
         WebDriverWait myWait = new WebDriverWait(driver, Duration.ofSeconds(20));
         Actions actions = new Actions(driver);
         Myfunc.Bekle(2);
@@ -149,8 +149,8 @@ public class _US206_OrderingFeature extends BaseDriver {
         for (int i = 0; i < 3; i++) {
             robot1.keyPress(KeyEvent.VK_TAB);
             robot1.keyRelease(KeyEvent.VK_TAB);
-            //MyFunc.Bekle(1);
-            Thread.sleep(300);
+            Myfunc.Bekle(1);
+
         }
 
         robot1.keyPress(KeyEvent.VK_ENTER);
